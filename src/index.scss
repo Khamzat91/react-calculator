@@ -21,8 +21,11 @@ body{
   align-items: center;
   max-width: 320px;
   width: 100%;
+  outline: none;
 
   &__header{
+    max-width: 320px;
+    width: 100%;
     background-color: #000;
     display: flex;
     justify-content: flex-end;
@@ -36,13 +39,6 @@ body{
     max-width: 320px;
     width: 100%;
 
-    &-four{
-      .calculator__wrapper-item{
-        background-color: coral;
-        color: #fff;
-      }
-    }
-
     &-item{
       padding: 35px;
       background-color: darkgrey;
@@ -50,8 +46,21 @@ body{
       text-align: center;
       width: 80px;
       font-size: 14px;
-      border: 1px solid #312e2e;
+      border-bottom: 1px solid #312e2e;
+      border-right: 1px solid #312e2e;
       cursor: pointer;
+    }
+
+    &-symbol{
+      padding: 35px;
+      background-color: coral;
+      color: #fff;
+      text-align: center;
+      width: 80px;
+      font-size: 14px;
+      cursor: pointer;
+      border-bottom: 1px solid #312e2e;
+      border-right: 1px solid #312e2e;
     }
    }
 
