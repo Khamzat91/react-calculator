@@ -1,30 +1,61 @@
 import React from "react";
+import store from "./components/store";
 import './index.scss';
 
-const calc = [[7, 4, 1, '.'], [8, 5, 2, 0], [9, 6, 3, '=']]
 
 function App() {
+  const [out, setOut] = React.useState('');
+  const [operationValue, setOperationValue] = React.useState('');
+
+  const tapeNumber = (value) => {
+   try {
+     if (value === '=') {
+       setOut(eval(operationValue + out))
+       setOperationValue('')
+     } else
+       setOut(prev => prev + value)
+   }catch (e) {
+     console.log('Произошла ошибка')
+   }
+  }
+
+  const typeOperation = (value) => {
+    setOperationValue(prev => prev+out+value)
+    setOut('')
+  }
+  const deleteLastChart = () => {
+    setOut(prev => prev.length === 1 ? '0' : prev.substring(0, prev.length - 1))
+  }
+
+  const removeAll = () => {
+    setOut('')
+  }
+
+  const onChangeValue = (e) => {
+    setOut(e.target.value)
+  }
+
 
   return (
     <div className="calculator">
-      <input className="calculator__header"/>
+      <input onChange={onChangeValue} value={out} className="calculator__header" placeholder="0"/>
       <div className="calculator__wrapper">
-        {calc.map((i) =>
-          <div className="calculator__wrapper-one">
-            {
-              i.map((obj) => <div className="calculator__wrapper-item">{obj}</div>)
-            }
-          </div>)
-        }
+        <div className="calculator__wrapper-one">
+          {
+            store.buttons.map((obj,index) => <div key={index} onClick={() => tapeNumber(obj.val)}
+                                            className="calculator__wrapper-item">{obj.val}</div>)
+          }
+        </div>
         <div className="calculator__wrapper-two">
-          <div className="calculator__wrapper-symbol">/</div>
-          <div className="calculator__wrapper-symbol">*</div>
-          <div className="calculator__wrapper-symbol">+</div>
-          <div className="calculator__wrapper-symbol">-</div>
+          {
+            store.operation.map((obj,index) => <div key={index} onClick={() => typeOperation(obj.val)}
+                                              className="calculator__wrapper-symbol">{obj.val}</div>)
+          }
         </div>
       </div>
       <div className="calculator__footer">
-        Clear
+        <div onClick={removeAll} className="calculator__footer-btn left">C</div>
+        <div onClick={deleteLastChart} className="calculator__footer-btn">CE</div>
       </div>
     </div>
   );
